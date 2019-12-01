@@ -7,7 +7,7 @@ ArrayList<String> linie = (ArrayList<String>)Files.readAllLines(Paths.get("C:\\U
 		int dzienChmur = 0;
 		String typChmur = "";
 		
-		ArrayList<Integer> dniChmur = new ArrayList<Integer>();
+		ArrayList<Integer> dniChmur = new ArrayList<Integer>(); //tablica do przechowywania ilosci dni wystepowania danego typu chmury
 		dniChmur.add(0);
 		dniChmur.add(0);
 		dniChmur.add(0);
@@ -17,12 +17,12 @@ ArrayList<String> linie = (ArrayList<String>)Files.readAllLines(Paths.get("C:\\U
 		
 		
 		
-		for (int i = 1; i <= 499; i++) {
+		for (int i = 1; i <= 499; i++) { //petla linii pliku (-1 bo prognozuje na jutro i sprawdzam jutro)
 			
-			String dzisiaj = linie.get(i);
-			String jutro = linie.get(i + 1);
+			String dzisiaj = linie.get(i); //dzisiejsza linia
+			String jutro = linie.get(i + 1); //nastepna linia
 			
-			Integer opadDzisiaj = Integer.parseInt(dzisiaj.split(";")[2]);
+			Integer opadDzisiaj = Integer.parseInt(dzisiaj.split(";")[2]); //tych 3 chyba nie musze tlumaczyc
 			float temperaturaJutro = Float.parseFloat(linie.get(i + 1).split(";")[1].replace(',', '.'));
 			Integer poziomChmurDzisiaj = Integer.parseInt(dzisiaj.split(";")[4]);
 			
@@ -30,13 +30,13 @@ ArrayList<String> linie = (ArrayList<String>)Files.readAllLines(Paths.get("C:\\U
 			
 			
 			
-			if(opadDzisiaj >= 20 && poziomChmur == 5) {
+			if(opadDzisiaj >= 20 && poziomChmur == 5) { //jesli opad jest >= 20 i poziom chmur 5 to chmury znikaja
 				typChmur = "0";
 				poziomChmur = 0;
 				dzienChmur = 0;
 			}
-			else if(opadDzisiaj == 0) {
-				if(temperaturaJutro >= 10) {
+			else if(opadDzisiaj == 0) { //jesli dzisiaj nie ma opadu jutro beda chmury
+				if(temperaturaJutro >= 10) { //jesli jutro bedzie >= 10*C to kategoria C inaczej S
 					typChmur = "C";
 				}
 				else {
@@ -44,20 +44,20 @@ ArrayList<String> linie = (ArrayList<String>)Files.readAllLines(Paths.get("C:\\U
 				}
 				poziomChmur = 1;
 			}
-			else if (dzienChmur == 3 && poziomChmur != 5) {
+			else if (dzienChmur == 3 && poziomChmur != 5) { //jesli to 3. dzien chmury to chmura ma upgrade (max 5 lvl)
 				dzienChmur = 0;
 				poziomChmur++;
 			}
 			
-			if(poziomChmur != 0) {
+			if(poziomChmur != 0) { //jesli chmura wystepuje to licz ile dni ma chmura
 				dzienChmur++;
 			}
 			
-			dniChmur.set(poziomChmur, dniChmur.get(poziomChmur) + 1);
+			dniChmur.set(poziomChmur, dniChmur.get(poziomChmur) + 1); //tutaj do tablicy sumuje dni wystepowania danego poziomu chmury
 			
-			if(i < 301) {
+			if(i < 301) { //do 300 bo tyle mialo byc w zadaniu
 				Integer poziomChmurJutro = Integer.parseInt(jutro.split(";")[4]);
-				if(poziomChmurJutro == poziomChmur) {
+				if(poziomChmurJutro == poziomChmur) { //jest poziom chmur sie zgadza to doliczam (prognozuje zawsze z dzisiaj na jutro)
 					poziomChmurPoprawny ++;
 				}
 				else {
@@ -65,7 +65,7 @@ ArrayList<String> linie = (ArrayList<String>)Files.readAllLines(Paths.get("C:\\U
 				}
 				
 				String kategoriaChmurJutro = jutro.split(";")[3];
-				if(kategoriaChmurJutro.equals(typChmur)) {
+				if(kategoriaChmurJutro.equals(typChmur)) { //jesli kategoria chmury sie zgadza to doliczam
 					typChmurPoprawny++;
 				}
 				else {
@@ -73,6 +73,7 @@ ArrayList<String> linie = (ArrayList<String>)Files.readAllLines(Paths.get("C:\\U
 				}
 			}
 			
+			//takie bzdety zeby zgodnosc z pierwszymi 20 linijkami sprawdzic
 			System.out.println("dzien:"+(i+1));
 			System.out.println("poziom:"+poziomChmur);
 			System.out.println("dzien:"+dzienChmur);
@@ -84,6 +85,7 @@ ArrayList<String> linie = (ArrayList<String>)Files.readAllLines(Paths.get("C:\\U
 			
 		}
 		
+		//i nasze wyniki
 		System.out.println("suma wystepowania typow chmur:");
 		System.out.println("0:"+dniChmur.get(0));
 		System.out.println("1:"+dniChmur.get(1));
