@@ -1,0 +1,47 @@
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+
+using namespace std;
+
+int main()
+{
+
+
+    string linia;
+    int licznik=0;
+
+    int pot[12];
+	pot[0]=1;
+
+
+    fstream plik;
+	plik.open("liczby.txt", ios::in);
+
+	if(plik.good()==false) cout<<"Nie mozna otworzyc pliku!";
+
+
+    while(getline(plik, linia))
+	{
+
+	int liczba;
+    int j=pot[0];
+
+	    liczba=atoi(linia.c_str());
+        if(liczba==1) licznik++;
+
+        for(int x=1;x<12;x++)
+        {
+            int i=x;
+            pot[i]=j*3;
+            j=j*3;
+            if(liczba==pot[i]) licznik++;
+        }
+	}
+
+    cout<<licznik<<endl;
+
+	plik.close();
+
+	return 0;
+}
