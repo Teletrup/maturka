@@ -1,7 +1,7 @@
 import random
 
 random.seed(1)
-l = [random.randint(1, 3000) for _ in range(256)]
+l = [random.randint(1, 3000) for _ in range(100)]
 
 #metoda liniowa
 porownania_lin = 0
@@ -25,7 +25,7 @@ def minmax_dac(a, b):
 	global porownania_dac
 	if b == a:
 		return l[a], l[a]
-	elif b - a <= 1:
+	if b - a == 1:
 		porownania_dac += 1
 		if l[a] < l[b]:
 			return l[a], l[b]
