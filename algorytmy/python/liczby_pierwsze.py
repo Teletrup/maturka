@@ -6,6 +6,20 @@ jeśli n nie ma czynników pierwszych <= sqrt(n)
 
 """
 
+#generowanie liczb pierwszych < n (sito Eratostenesa)
+def generuj_pierwsze(n):
+	pierwsze = [2]
+	for i in range(3, n):
+		for p in pierwsze:
+			if i % p == 0:
+				break
+		else:	#w pythonie else w odniesieniu do pętli wykonuje się, kiedy pętla nie zostanie przerwana
+			pierwsze.append(i)
+	return pierwsze
+
+print(generuj_pierwsze(100))
+		
+
 #sprawdzanie czy liczba jest pierwsza
 def czy_pierwsza(a):
 	if a % 2 == 0:
